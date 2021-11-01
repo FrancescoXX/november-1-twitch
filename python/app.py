@@ -1,41 +1,43 @@
-from flask import Flask, request, Response, jsonify
-import os
+from flask import Flask, request
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
-app.config.from_pyfile('./config/appconfig.cfg')
-CONF = f"postgresql://{app.config['PG_USER']}:{app.config['PG_PASSWORD']}@{app.config['PG_HOST']}:{app.config['PG_PORT']}/{app.config['PG_DATABASE']}"
-app.config['SQLALCHEMY_DATABASE_URI'] = CONF
-
+app.config['SQLALCHEMY_DATABASE_URI'] = (
+    f"postgresql://{os.environ['PG_USER']}"
+    f":{os.environ['PG_PASSWORD']}"
+    f"@{os.environ['PG_HOST']}"
+    f":{os.environ['PG_PORT']}"
+    f"/{os.environ['PG_DATABASE']}"
+)
 db = SQLAlchemy(app)
 
 # Model
 class Item(db.Model):
-  id = db.Column(db.Integer, primary_key=True)
-  title = db.Column(db.String(255), unique=True, nullable=False)
-  content = db.Column(db.String(255), nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String(255), unique=True, nullable=False)
+    content = db.Column(db.String(255), nullable=False)
 
-  def __init__(self, title, content):
-    self.title = title
-    self.content = content
+    def __init__(self, title, content):
+        self.title = title
+        self.content = content
 
 db.create_all()
-db.session.commit()
 
 @app.route('/', methods=['GET'])
 def get():
-  return ""
+    return "ok"
 
 # Create item
 @app.route('/items', methods=['POST'])
 def itemadd():
-  request_data = request.get_json()
-  title = request_data['title']
-  content = request_data['content']
+    request_data = request.get_json()
+    
+    title = request_data['title']
+    content = request_data['content']
 
-  entry = Item(title, content)
-  db.session.add(entry)
-  db.session.commit()
+    db.session.add(Item(title, content))
+    db.session.commit()
 
-  return "item created"
+    return "item created"

@@ -5,9 +5,7 @@ const User = require('./models/users');
 const app = express()
 app.use(express.json());
 
-app.get('/', (req, res) => {
-  res.send('Hello Docker World!')
-})
+app.get('/', (req, res) => res.send('Hello Docker World!'))
 
 app.use('/users', async (req, res) => {
   try {
