@@ -2,6 +2,9 @@
 - docker-compose.yml file✅
 - postgres service✅
 - TEST postgres check✅
+
+## Node.js
+
 - initialize npm project in a js folder✅
 - Express hello world✅
 - TEST HELLO WORLD✅
@@ -10,19 +13,20 @@
 - TEST Nodejs app DOCKER✅
 - util/database.js✅
 - models/users.js✅
-- controllers/users.js✅
-- routes/users.js✅
 - index.js✅
 - add to docker-compose (jsapp)✅
 - TEST WITH docker compose (JavaScript)✅
-- FLASK
-- requirements.txt
-- config/appconfig.cfg
-- wsgi.py
-- app.py (hello world and POST)
-- Dockerfile
-- .dockerignore
-- add to docker-compose.yml (pythonapp)
-- TEST with 2 INSERTS
+
+## Flask
+
+- FLASK✅
+- requirements.txt✅
+- config/appconfig.cfg✅
+- wsgi.py✅
+- app.py (hello world and POST)✅
+- Dockerfile✅
+- .dockerignore✅
+- add to docker-compose.yml (pythonapp)✅
+- TEST with 2 INSERTS✅
 
 ... add endpoints
