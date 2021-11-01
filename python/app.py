@@ -5,12 +5,9 @@ from flask_sqlalchemy import SQLAlchemy
 app = Flask(__name__)
 
 app.config.from_pyfile('./config/appconfig.cfg')
-# 'postgresql://scott:tiger@localhost:5432/mydatabase'
 CONF = f"postgresql://{app.config['PG_USER']}:{app.config['PG_PASSWORD']}@{app.config['PG_HOST']}:{app.config['PG_PORT']}/{app.config['PG_DATABASE']}"
 app.config['SQLALCHEMY_DATABASE_URI'] = CONF
 
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'secret_key'
 db = SQLAlchemy(app)
 
 # Model
@@ -23,16 +20,16 @@ class Item(db.Model):
     self.title = title
     self.content = content
 
+db.create_all()
+db.session.commit()
+
 @app.route('/', methods=['GET'])
 def get():
   return ""
 
 # Create item
-@app.route('/create', methods=['POST'])
+@app.route('/items', methods=['POST'])
 def itemadd():
-  query = '''CREATE TABLE if not exists item(id serial PRIMARY KEY, title VARCHAR (200) UNIQUE NOT NULL, content VARCHAR (200) NOT NULL);'''
-  db.engine.execute(query)
-
   request_data = request.get_json()
   title = request_data['title']
   content = request_data['content']
@@ -41,4 +38,4 @@ def itemadd():
   db.session.add(entry)
   db.session.commit()
 
-  return jsonify("item created")
+  return "item created"
